@@ -1,7 +1,8 @@
 import { Aspects, Stage, type StageProps, Tag } from 'aws-cdk-lib';
 import type { Construct } from 'constructs';
 
-import type { AppInfo } from '@/common/app-info';
+import { type AppInfo, isProd } from '@/common/app-info';
+import { StateStack } from '@/state/state.stack';
 
 interface AppStageProps extends StageProps, AppInfo {}
 
@@ -11,7 +12,14 @@ export class AppStage extends Stage {
 
     const { appName, appEnv } = props;
 
-    // TODO: stacks get added here in the following steps
+    const stackName = (name: string) => `${appName}-${appEnv}-${name}`;
+
+    new StateStack(this, 'state', {
+      appName,
+      appEnv,
+      stackName: stackName('state'),
+      terminationProtection: isProd(props),
+    });
 
     Aspects.of(this).add(new Tag('project', appName));
     Aspects.of(this).add(new Tag('env', appEnv));
