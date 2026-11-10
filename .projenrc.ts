@@ -10,6 +10,7 @@ const cdkVersion = '2.274.0';
 const powertoolsVersion = 'v2.36.0';
 const awsSdkVersion = '3.1155.0';
 const middyVersion = '7.9.2';
+const cdkAlphaVersion = `${cdkVersion}-alpha.0`;
 
 const lambdaBundling = {
   externals: [],
@@ -23,8 +24,8 @@ const lambdaBundling = {
 
 const project = new awscdk.AwsCdkTypeScriptApp({
   name: 'toilet-monitor',
-  authorName: 'TODO', // TODO: replace with your name
-  authorEmail: 'TODO', // TODO: replace with your email
+  authorName: 'Michal Slota',
+  authorEmail: 'malaniusprivierre@gmail.com',
   license: 'MIT',
 
   cdkVersion,
@@ -68,6 +69,13 @@ const project = new awscdk.AwsCdkTypeScriptApp({
   },
 
   deps: [
+    // CDK alpha modules, versions must match the pinned CDK version
+    `@aws-cdk/aws-iot-alpha@${cdkAlphaVersion}`,
+    `@aws-cdk/aws-iot-actions-alpha@${cdkAlphaVersion}`,
+    `@aws-cdk/aws-pipes-alpha@${cdkAlphaVersion}`,
+    `@aws-cdk/aws-pipes-sources-alpha@${cdkAlphaVersion}`,
+    `@aws-cdk/aws-pipes-targets-alpha@${cdkAlphaVersion}`,
+
     // AWS Lambda Powertools dependencies
     `@aws-lambda-powertools/batch@${powertoolsVersion}`,
     `@aws-lambda-powertools/logger@${powertoolsVersion}`,
@@ -82,7 +90,6 @@ const project = new awscdk.AwsCdkTypeScriptApp({
     // Middy middleware dependencies
     `@middy/core@${middyVersion}`,
 
-    // TODO: add any other dependencies your project requires
     'zod@~4',
   ],
   devDeps: [

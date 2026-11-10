@@ -1,14 +1,22 @@
-# Welcome to your CDK TypeScript project
+# Toilet Monitor
 
-This is a blank project for CDK development with TypeScript.
+Event-driven backend for battery-powered door sensors (ESP32) reporting toilet occupancy.
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+```mermaid
+flowchart LR
+  device[ESP32 door sensor] -- MQTT/HTTPS --> iot[IoT Core]
+  iot -- topic rule --> lambda[Status Lambda]
+  lambda --> ddb[(DynamoDB)]
+  ddb -- stream --> pipe[EventBridge Pipe]
+  pipe --> bus[Event bus]
+  bus --> consumers[Consumers]
+```
+
+Old implementations live in `_old/` (separate repos, not tracked here).
 
 ## Useful commands
 
-- `npm run build` compile typescript to js
-- `npm run watch` watch for changes and compile
-- `npm run test` perform the jest unit tests
-- `cdk deploy` deploy this stack to your default AWS account/region
-- `cdk diff` compare deployed stack with current state
-- `cdk synth` emits the synthesized CloudFormation template
+- `bunx projen` - regenerate project files from `.projenrc.ts`
+- `bunx projen build` - compile, test, bundle and synth
+- `mise run diff [env]` - diff stacks against the deployed environment (default `dev`)
+- `mise run deploy [env]` - deploy stacks to the environment (default `dev`)

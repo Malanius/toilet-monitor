@@ -5,10 +5,17 @@ import { App } from 'aws-cdk-lib';
 
 import { AppStage } from './app.stage';
 
-const appName = 'TODO'; // TODO: replace with your project name
+const appName = 'toilet-monitor';
 const appEnv = env.APP_ENV || 'dev';
 const app = new App();
 
-new AppStage(app, appEnv, { appName, appEnv });
+new AppStage(app, appEnv, {
+  appName,
+  appEnv,
+  env: {
+    account: env.CDK_DEFAULT_ACCOUNT,
+    region: 'eu-west-1',
+  },
+});
 
 app.synth();

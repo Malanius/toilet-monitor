@@ -45,59 +45,7 @@
     },
     "bundle": {
       "name": "bundle",
-      "description": "Prepare assets",
-      "steps": [
-        {
-          "spawn": "bundle:sample-stack/sample.lambda"
-        }
-      ]
-    },
-    "bundle:sample-stack/sample.lambda": {
-      "name": "bundle:sample-stack/sample.lambda",
-      "description": "Create a JavaScript bundle from src/sample-stack/sample.lambda.ts",
-      "steps": [
-        {
-          "execArgs": [
-            "esbuild",
-            "--bundle",
-            "src/sample-stack/sample.lambda.ts",
-            "--target=node24",
-            "--platform=node",
-            "--outfile=assets/sample-stack/sample.lambda/index.mjs",
-            "--packages=bundle",
-            "--tsconfig=test/tsconfig.json",
-            "--sourcemap",
-            "--format=esm",
-            "--minify",
-            "--banner:js=import { createRequire } from 'node:module'; const require = createRequire(import.meta.url);",
-            "--main-fields=module,main"
-          ]
-        }
-      ]
-    },
-    "bundle:sample-stack/sample.lambda:watch": {
-      "name": "bundle:sample-stack/sample.lambda:watch",
-      "description": "Continuously update the JavaScript bundle from src/sample-stack/sample.lambda.ts",
-      "steps": [
-        {
-          "execArgs": [
-            "esbuild",
-            "--bundle",
-            "src/sample-stack/sample.lambda.ts",
-            "--target=node24",
-            "--platform=node",
-            "--outfile=assets/sample-stack/sample.lambda/index.mjs",
-            "--packages=bundle",
-            "--tsconfig=test/tsconfig.json",
-            "--sourcemap",
-            "--format=esm",
-            "--minify",
-            "--banner:js=import { createRequire } from 'node:module'; const require = createRequire(import.meta.url);",
-            "--main-fields=module,main",
-            "--watch"
-          ]
-        }
-      ]
+      "description": "Prepare assets"
     },
     "check": {
       "name": "check",
@@ -350,6 +298,11 @@
             "projen",
             "ts-node",
             "typescript",
+            "@aws-cdk/aws-iot-actions-alpha",
+            "@aws-cdk/aws-iot-alpha",
+            "@aws-cdk/aws-pipes-alpha",
+            "@aws-cdk/aws-pipes-sources-alpha",
+            "@aws-cdk/aws-pipes-targets-alpha",
             "@aws-lambda-powertools/batch",
             "@aws-lambda-powertools/logger",
             "@aws-lambda-powertools/parameters",

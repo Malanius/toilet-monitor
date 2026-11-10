@@ -5,6 +5,11 @@
     "": {
       "name": "TODO",
       "dependencies": {
+        "@aws-cdk/aws-iot-actions-alpha": "2.274.0-alpha.0",
+        "@aws-cdk/aws-iot-alpha": "2.274.0-alpha.0",
+        "@aws-cdk/aws-pipes-alpha": "2.274.0-alpha.0",
+        "@aws-cdk/aws-pipes-sources-alpha": "2.274.0-alpha.0",
+        "@aws-cdk/aws-pipes-targets-alpha": "2.274.0-alpha.0",
         "@aws-lambda-powertools/batch": "v2.36.0",
         "@aws-lambda-powertools/logger": "v2.36.0",
         "@aws-lambda-powertools/parameters": "v2.36.0",
@@ -38,6 +43,18 @@
     "@aws-cdk/asset-awscli-v1": ["@aws-cdk/asset-awscli-v1@2.2.292", "", {}, "sha512-d4aMFsAFj19FtxVyw8IzlUKv5Zu4sIvgnEjI2IU6IWBJgVbJ4aFnadANqYa+6MwB1CQbGOg0jh8WE77M+Nb/9A=="],
 
     "@aws-cdk/asset-node-proxy-agent-v6": ["@aws-cdk/asset-node-proxy-agent-v6@2.1.3", "", {}, "sha512-98We1QWfin9vtuuQtNFhIIAEWb8CreyYTAP0Vn8HqSBoNiFJM9nZgifJeQawT9Wq0NX1HCNFlxCyTccIrK1PSA=="],
+
+    "@aws-cdk/aws-iot-actions-alpha": ["@aws-cdk/aws-iot-actions-alpha@2.274.0-alpha.0", "", { "dependencies": { "case": "1.6.3" }, "peerDependencies": { "@aws-cdk/aws-iot-alpha": "2.274.0-alpha.0", "@aws-cdk/aws-iotevents-alpha": "2.274.0-alpha.0", "aws-cdk-lib": "^2.274.0", "constructs": "^10.5.0" } }, "sha512-kENgx7LlqVFfei31DSBbVE01ab3OVzPtxLIpXtBsymiCB5NYof9iSudaC6vTgNPdHhAGydrU7RoLXLhYRXUIFA=="],
+
+    "@aws-cdk/aws-iot-alpha": ["@aws-cdk/aws-iot-alpha@2.274.0-alpha.0", "", { "peerDependencies": { "aws-cdk-lib": "^2.274.0", "constructs": "^10.5.0" } }, "sha512-mXUolSf7Y+L1641LNCCG/bX2/11r6gW5lwfZCwmDyrOw2r9oy9B9xICIscJbQRyYrYQ4GaxyIILUSLL5kG6Aog=="],
+
+    "@aws-cdk/aws-iotevents-alpha": ["@aws-cdk/aws-iotevents-alpha@2.274.0-alpha.0", "", { "peerDependencies": { "aws-cdk-lib": "^2.274.0", "constructs": "^10.5.0" } }, "sha512-1d9C/I0rJZo3AUqnKfYHyZFAJ9mvKOk/2e3Q+yYBlRI986k7OwSIVI8cHX7tnR22da259kwCPqygK4eg8giCzg=="],
+
+    "@aws-cdk/aws-pipes-alpha": ["@aws-cdk/aws-pipes-alpha@2.274.0-alpha.0", "", { "peerDependencies": { "aws-cdk-lib": "^2.274.0", "constructs": "^10.5.0" } }, "sha512-X83eebrbcOjHeX962s6u49f2gJ2O61yec5P2J42BQBoOq1hIR8whL2UwjIZB+skwBdr5NapARLTkfr+60/YLlQ=="],
+
+    "@aws-cdk/aws-pipes-sources-alpha": ["@aws-cdk/aws-pipes-sources-alpha@2.274.0-alpha.0", "", { "peerDependencies": { "@aws-cdk/aws-pipes-alpha": "2.274.0-alpha.0", "aws-cdk-lib": "^2.274.0", "constructs": "^10.5.0" } }, "sha512-DmwQq8lPKzLCv8ctLQxIm97CXGrxgfjj/gF9D96BUD+Su56rWerJWmfJJtDSI6WzO0S97XChykhm/JK+CdwB8w=="],
+
+    "@aws-cdk/aws-pipes-targets-alpha": ["@aws-cdk/aws-pipes-targets-alpha@2.274.0-alpha.0", "", { "peerDependencies": { "@aws-cdk/aws-pipes-alpha": "2.274.0-alpha.0", "aws-cdk-lib": "^2.274.0", "constructs": "^10.5.0" } }, "sha512-peNfFGzNi5nIN9RTem0H3fbyjtea/h4JnC1fefSfry9Eq10c9LX3BxHhxVoMap3IAY9Ryza/kygvskivAOXHWA=="],
 
     "@aws-cdk/cloud-assembly-schema": ["@aws-cdk/cloud-assembly-schema@55.2.0", "", {}, "sha512-DHfYrZdyJZwWlI5sOK97X7SDc5Ow+uH3w3/qnB/ZYtY530lEsLObOoq/Z8BcJM6bAwJI6ozIgg9VYg2ot+A1jQ=="],
 
@@ -654,6 +671,8 @@
     "yocto-queue": ["yocto-queue@1.2.1", "", {}, "sha512-AyeEbWOu/TAXdxlV9wmGcR0+yh2j3vYPGOECcIj2S7MkrLyC7ne+oye2BKTItt0ii2PHk4cDy+95+LshzbXnGg=="],
 
     "zod": ["zod@4.6.7", "", {}, "sha512-g8W2D2kU6a8untc053fX1uVBKzM7yqAxW/3zwk83+6RyF2+SKOuV+c0wBDhUwzV1PaGapmZH+rmcUzPf+3CGwg=="],
+
+    "@aws-cdk/aws-iot-actions-alpha/case": ["case@1.6.3", "", { "bundled": true }, "sha512-mzDSXIPaFwVDvZAHqZ9VlbyF4yyXRuX6IvB06WvPYkqJVO24kX1PPhv9bfpKNFZyxYFmmgo03HUiD8iklmJYRQ=="],
 
     "@commitlint/config-validator/ajv": ["ajv@8.17.1", "", { "dependencies": { "fast-deep-equal": "3.1.3", "fast-uri": "3.1.0", "json-schema-traverse": "1.0.0", "require-from-string": "2.0.2" } }, "sha512-B/gBuNg5SiMTrPkC+A2+cW0RszwxYmn6VYxB/inlBStS5nx6xHIt/ehKRhIMhqusl7a8LjQoZnjCs5vhwxOQ1g=="],
 

@@ -55,6 +55,31 @@
       "type": "build"
     },
     {
+      "name": "@aws-cdk/aws-iot-actions-alpha",
+      "version": "2.274.0-alpha.0",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-cdk/aws-iot-alpha",
+      "version": "2.274.0-alpha.0",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-cdk/aws-pipes-alpha",
+      "version": "2.274.0-alpha.0",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-cdk/aws-pipes-sources-alpha",
+      "version": "2.274.0-alpha.0",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-cdk/aws-pipes-targets-alpha",
+      "version": "2.274.0-alpha.0",
+      "type": "runtime"
+    },
+    {
       "name": "@aws-lambda-powertools/batch",
       "version": "v2.36.0",
       "type": "runtime"

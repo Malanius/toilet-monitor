@@ -9,7 +9,6 @@
     "cdk.json",
     "LICENSE",
     "projenrc/tsconfig.json",
-    "src/sample-stack/sample-function.ts",
     "test/tsconfig.json",
     "tsconfig.json"
   ],
