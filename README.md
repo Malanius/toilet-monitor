@@ -35,3 +35,10 @@ door topic `toilet-monitor/<env>/toilets/<thingName>/door`:
 
 `reason` defaults to `change`, `batteryMv` is optional. HTTPS publishing isn't supported: the policy relies on
 thing policy variables, which only resolve for MQTT connections.
+
+## Events
+
+Status changes are published to the `toilet-monitor-<env>` event bus with source `toilet-monitor` and detail types
+`Toilet Status Changed`, `Toilet Went Offline` and `Toilet Came Online` (schema in `src/contracts/events.ts`). Every
+event is also written to the `/aws/events/toilet-monitor/<env>/status-events` log group. Events can arrive out of order,
+so consumers should rely on `changedAt` and `previous` in the detail.

@@ -2,6 +2,7 @@ import { Aspects, Stage, type StageProps, Tag } from 'aws-cdk-lib';
 import type { Construct } from 'constructs';
 
 import { type AppInfo, isProd } from '@/common/app-info';
+import { ConsumersStack } from '@/consumers/consumers.stack';
 import { IngestStack } from '@/ingest/ingest.stack';
 import { StateStack } from '@/state/state.stack';
 
@@ -27,6 +28,13 @@ export class AppStage extends Stage {
       appEnv,
       stackName: stackName('ingest'),
       table: state.statusTable.table,
+    });
+
+    new ConsumersStack(this, 'consumers', {
+      appName,
+      appEnv,
+      stackName: stackName('consumers'),
+      bus: state.statusEventBus.bus,
     });
 
     Aspects.of(this).add(new Tag('project', appName));
