@@ -8,6 +8,8 @@ flowchart LR
   iot -- topic rule --> lambda[Status Lambda]
   lambda --> ddb[(DynamoDB)]
   ddb -- stream --> pipe[EventBridge Pipe]
+  lambda -- moves offline timer --> scheduler[EventBridge Scheduler]
+  scheduler -- silent too long --> lambda
   pipe --> bus[Event bus]
   bus --> consumers[Consumers]
 ```
@@ -33,7 +35,9 @@ door topic `toilet-monitor/<env>/toilets/<thingName>/door`:
 { "door": "open" | "closed", "reason": "change" | "heartbeat", "batteryMv": 3712 }
 ```
 
-`reason` defaults to `change`, `batteryMv` is optional. HTTPS publishing isn't supported: the policy relies on
+`reason` defaults to `change`, `batteryMv` is optional. While the door doesn't move, a device sends a `heartbeat`
+report every `heartbeatIntervalMinutes` (CDK context, 6 h by default). A toilet without any report for two intervals
+plus 10% is marked offline (`Toilet Went Offline`), its next report brings it back (`Toilet Came Online`). HTTPS publishing isn't supported: the policy relies on
 thing policy variables, which only resolve for MQTT connections.
 
 ## Events

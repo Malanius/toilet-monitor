@@ -2,6 +2,8 @@ import type { CdkConfigCommonOptions } from 'projen/lib/awscdk';
 
 // Defaults from CDK 2.273.0
 export const context: CdkConfigCommonOptions['context'] = {
+  // How often devices report while nothing changes, see src/common/liveness.ts
+  heartbeatIntervalMinutes: 360,
   '@aws-cdk-containers/ecs-service-extensions:enableDefaultLogDriver': true,
   '@aws-cdk/aws-apigateway:authorizerChangeDeploymentLogicalId': true,
   '@aws-cdk/aws-apigateway:disableCloudWatchRole': true,

@@ -2,6 +2,7 @@ import { Aspects, Stage, type StageProps, Tag } from 'aws-cdk-lib';
 import type { Construct } from 'constructs';
 
 import { type AppInfo, isProd } from '@/common/app-info';
+import { offlineAfter } from '@/common/liveness';
 import { ConsumersStack } from '@/consumers/consumers.stack';
 import { IngestStack } from '@/ingest/ingest.stack';
 import { StateStack } from '@/state/state.stack';
@@ -28,6 +29,8 @@ export class AppStage extends Stage {
       appEnv,
       stackName: stackName('ingest'),
       table: state.statusTable.table,
+      scheduleGroup: state.livenessSchedules.group,
+      offlineAfter: offlineAfter(this),
     });
 
     new ConsumersStack(this, 'consumers', {

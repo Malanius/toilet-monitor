@@ -12,11 +12,9 @@ export interface ConsumersStackProps extends StackProps, AppInfo {
 
 /** Everything reacting to status events from the bus. */
 export class ConsumersStack extends Stack {
-  readonly statusEventLog: StatusEventLog;
-
   constructor(scope: Construct, id: string, props: ConsumersStackProps) {
     super(scope, id, props);
 
-    this.statusEventLog = new StatusEventLog(this, 'StatusEventLog', props);
+    new StatusEventLog(this, 'StatusEventLog', props);
   }
 }

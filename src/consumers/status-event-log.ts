@@ -13,26 +13,23 @@ export interface StatusEventLogProps extends AppInfo {
 
 /** Logs every status event from the bus, to see what consumers receive. */
 export class StatusEventLog extends Construct {
-  readonly logGroup: LogGroup;
-  readonly rule: Rule;
-
   constructor(scope: Construct, id: string, props: StatusEventLogProps) {
     super(scope, id);
 
     const { appName, appEnv, bus } = props;
 
-    this.logGroup = new LogGroup(this, 'LogGroup', {
+    const logGroup = new LogGroup(this, 'LogGroup', {
       // EventBridge only writes to log groups under /aws/events/
       logGroupName: `/aws/events/${appName}/${appEnv}/status-events`,
       retention: isProd(props) ? RetentionDays.ONE_MONTH : RetentionDays.ONE_WEEK,
       removalPolicy: RemovalPolicy.DESTROY,
     });
 
-    this.rule = new Rule(this, 'Rule', {
+    new Rule(this, 'Rule', {
       eventBus: bus,
       description: `Logs all ${EVENT_SOURCE} events`,
       eventPattern: { source: [EVENT_SOURCE] },
-      targets: [new CloudWatchLogGroup(this.logGroup)],
+      targets: [new CloudWatchLogGroup(logGroup)],
     });
   }
 }

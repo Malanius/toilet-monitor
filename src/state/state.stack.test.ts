@@ -13,6 +13,10 @@ const synth = (appEnv: string) =>
 describe('StateStack', () => {
   const template = synth('dev');
 
+  test('liveness timers have their own schedule group', () => {
+    template.hasResourceProperties('AWS::Scheduler::ScheduleGroup', { Name: 'toilet-monitor-dev-liveness' });
+  });
+
   test('table streams new images', () => {
     template.hasResourceProperties('AWS::DynamoDB::GlobalTable', {
       KeySchema: [

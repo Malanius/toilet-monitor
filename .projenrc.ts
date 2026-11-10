@@ -88,6 +88,7 @@ const project = new awscdk.AwsCdkTypeScriptApp({
 
     // AWS SDK dependencies
     `@aws-sdk/client-dynamodb@${awsSdkVersion}`,
+    `@aws-sdk/client-scheduler@${awsSdkVersion}`,
     `@aws-sdk/client-secrets-manager@${awsSdkVersion}`,
     `@aws-sdk/lib-dynamodb@${awsSdkVersion}`,
 

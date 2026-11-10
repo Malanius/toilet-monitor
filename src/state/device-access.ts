@@ -19,8 +19,6 @@ export const THING_NAME = '${iot:Connection.Thing.ThingName}';
  * by the provisioning script, and a policy with attached certificates can't be deleted.
  */
 export class DeviceAccess extends Construct {
-  readonly policy: CfnPolicy;
-
   constructor(scope: Construct, id: string, props: DeviceAccessProps) {
     super(scope, id);
 
@@ -28,7 +26,7 @@ export class DeviceAccess extends Construct {
     const iotArn = (resource: string, resourceName: string) =>
       stack.formatArn({ service: 'iot', resource, resourceName, arnFormat: ArnFormat.SLASH_RESOURCE_NAME });
 
-    this.policy = new CfnPolicy(this, 'Policy', {
+    const policy = new CfnPolicy(this, 'Policy', {
       policyName: devicePolicyName(props),
       policyDocument: {
         Version: '2012-10-17',
@@ -48,6 +46,6 @@ export class DeviceAccess extends Construct {
         ],
       },
     });
-    this.policy.applyRemovalPolicy(isProd(props) ? RemovalPolicy.RETAIN : RemovalPolicy.DESTROY);
+    policy.applyRemovalPolicy(isProd(props) ? RemovalPolicy.RETAIN : RemovalPolicy.DESTROY);
   }
 }

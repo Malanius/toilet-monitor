@@ -366,6 +366,7 @@
             "@aws-lambda-powertools/tracer",
             "@aws-lambda-powertools/validation",
             "@aws-sdk/client-dynamodb",
+            "@aws-sdk/client-scheduler",
             "@aws-sdk/client-secrets-manager",
             "@aws-sdk/lib-dynamodb",
             "@middy/core",

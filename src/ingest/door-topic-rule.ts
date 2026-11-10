@@ -14,35 +14,33 @@ export interface DoorTopicRuleProps extends AppInfo {
 
 /** Routes door reports from all devices to the status processor. */
 export class DoorTopicRule extends Construct {
-  readonly rule: TopicRule;
-  readonly errorQueue: Queue;
-
   constructor(scope: Construct, id: string, props: DoorTopicRuleProps) {
     super(scope, id);
 
     const { appName, appEnv, handler } = props;
 
     // Receives the payload plus error details when the rule can't invoke the Lambda
-    this.errorQueue = new Queue(this, 'ErrorQueue', {
+    const errorQueue = new Queue(this, 'ErrorQueue', {
       encryption: QueueEncryption.SQS_MANAGED,
       enforceSSL: true,
       retentionPeriod: Duration.days(14),
     });
 
     const sql = [
-      'SELECT door, reason, batteryMv,',
+      // `kind` tells door reports apart from the liveness timeouts the processor also gets
+      "SELECT 'doorReport' AS kind, door, reason, batteryMv,",
       `topic(${DOOR_TOPIC_THING_SEGMENT}) AS thingName,`,
       'timestamp() AS receivedAt',
       `FROM '${doorTopic(props, '+')}'`,
     ].join(' ');
 
-    this.rule = new TopicRule(this, 'Rule', {
+    new TopicRule(this, 'Rule', {
       // Only alphanumerics and underscores are allowed
       topicRuleName: `${appName}_${appEnv}_door`.replace(/[^a-zA-Z0-9_]/g, '_'),
       description: 'Door reports -> status processor',
       sql: IotSql.fromStringAsVer20160323(sql),
       actions: [new LambdaFunctionAction(handler)],
-      errorAction: new SqsQueueAction(this.errorQueue, { useBase64: false }),
+      errorAction: new SqsQueueAction(errorQueue, { useBase64: false }),
     });
   }
 }
