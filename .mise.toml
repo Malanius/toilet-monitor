@@ -16,3 +16,20 @@ usage = '''
 arg "<env>" help="The target environment to deploy to" default="dev"
 '''
 run = "cdk deploy ${usage_env?}/*"
+
+[tasks."device:provision"]
+description = "Create a thing and certificate for a device, write its credentials locally"
+usage = '''
+arg "<env>" help="The target environment"
+arg "<toiletId>" help="Toilet id, e.g. ground-floor"
+flag "--out <dir>" help="Where to write the credentials, defaults to ~/.local/share/toilet-monitor/devices/<thingName>"
+'''
+run = "bun scripts/devices.ts provision ${usage_env?} ${usage_toilet_id?} ${usage_out:+--out $usage_out}"
+
+[tasks."device:deprovision"]
+description = "Delete a device's certificates and thing"
+usage = '''
+arg "<env>" help="The target environment"
+arg "<toiletId>" help="Toilet id, e.g. ground-floor"
+'''
+run = "bun scripts/devices.ts deprovision ${usage_env?} ${usage_toilet_id?}"

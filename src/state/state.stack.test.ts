@@ -3,6 +3,7 @@ import { Match, Template } from 'aws-cdk-lib/assertions';
 
 import { EVENT_SOURCE } from '@/contracts/events';
 
+import { THING_NAME } from './device-access';
 import { StateStack } from './state.stack';
 import { describe, expect, test } from 'bun:test';
 
@@ -41,6 +42,31 @@ describe('StateStack', () => {
     });
   });
 
+  test('device policy only allows connecting and publishing as the own thing', () => {
+    template.hasResourceProperties('AWS::IoT::Policy', {
+      PolicyName: 'toilet-monitor-dev-device',
+      PolicyDocument: {
+        Statement: [
+          {
+            Effect: 'Allow',
+            Action: 'iot:Connect',
+            Resource: {
+              'Fn::Join': ['', Match.arrayWith([`:client/${THING_NAME}`])],
+            },
+            Condition: { Bool: { 'iot:Connection.Thing.IsAttached': 'true' } },
+          },
+          {
+            Effect: 'Allow',
+            Action: 'iot:Publish',
+            Resource: {
+              'Fn::Join': ['', Match.arrayWith([`:topic/toilet-monitor/dev/toilets/${THING_NAME}/door`])],
+            },
+          },
+        ],
+      },
+    });
+  });
+
   test('pipe maps the new image to the event contract', () => {
     template.hasResourceProperties('AWS::Pipes::Pipe', {
       SourceParameters: {
@@ -72,6 +98,10 @@ describe('StateStack in prod', () => {
         Replicas: [Match.objectLike({ DeletionProtectionEnabled: true })],
       }),
     });
+  });
+
+  test('device policy is retained', () => {
+    template.hasResource('AWS::IoT::Policy', { DeletionPolicy: 'Retain' });
   });
 
   test('archive keeps events indefinitely', () => {

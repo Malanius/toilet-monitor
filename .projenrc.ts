@@ -50,6 +50,8 @@ const project = new awscdk.AwsCdkTypeScriptApp({
       emitDecoratorMetadata: true,
       forceConsistentCasingInFileNames: true,
       skipLibCheck: true,
+      // Type-check only (bundling is esbuild's job), so scripts outside src are fine
+      rootDir: '.',
       paths: {
         '@/*': ['./src/*'],
       },
@@ -98,6 +100,7 @@ const project = new awscdk.AwsCdkTypeScriptApp({
     '@commitlint/config-conventional',
     '@types/aws-lambda',
     'bun-types',
+    `@aws-sdk/client-iot@${awsSdkVersion}`,
     'commitlint',
     'cz-conventional-changelog',
     'lefthook',
@@ -109,6 +112,7 @@ const project = new awscdk.AwsCdkTypeScriptApp({
 project.gitignore.exclude('/_old/');
 
 project.defaultTask?.reset('bun .projenrc.ts');
+project.tsconfig?.addInclude('scripts/**/*.ts');
 project.testTask.exec('bun test');
 project.compileTask.exec('bun run tsc --project tsconfig.json --noEmit');
 project.cdkConfig.json.addOverride('build', 'bunx projen compile && bunx projen bundle');

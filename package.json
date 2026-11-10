@@ -33,6 +33,7 @@
     "organization": false
   },
   "devDependencies": {
+    "@aws-sdk/client-iot": "3.1155.0",
     "@biomejs/biome": "^2.5",
     "@commitlint/config-conventional": "^19.8.1",
     "@types/aws-lambda": "^8.10.164",

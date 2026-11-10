@@ -14,6 +14,9 @@ export const toiletIdFromThingName = (app: AppInfo, name: string): string | unde
   return name.startsWith(prefix) && name.length > prefix.length ? name.slice(prefix.length) : undefined;
 };
 
+/** Name of the IoT policy attached to every device certificate of an env. */
+export const devicePolicyName = ({ appName, appEnv }: AppInfo): string => `${appName}-${appEnv}-device`;
+
 /** Topic a device publishes its door reports to: `<appName>/<appEnv>/toilets/<thingName>/door`. */
 export const doorTopic = ({ appName, appEnv }: AppInfo, thing: string): string =>
   `${appName}/${appEnv}/toilets/${thing}/door`;

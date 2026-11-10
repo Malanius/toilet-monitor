@@ -1,6 +1,11 @@
 {
   "dependencies": [
     {
+      "name": "@aws-sdk/client-iot",
+      "version": "3.1155.0",
+      "type": "build"
+    },
+    {
       "name": "@biomejs/biome",
       "version": "^2.5",
       "type": "build"

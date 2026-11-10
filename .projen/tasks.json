@@ -340,6 +340,7 @@
           "execArgs": [
             "bun",
             "update",
+            "@aws-sdk/client-iot",
             "@biomejs/biome",
             "@commitlint/config-conventional",
             "@types/aws-lambda",
