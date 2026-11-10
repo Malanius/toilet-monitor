@@ -42,5 +42,6 @@ jspm_packages/
 /cdk.out/
 .cdk.staging/
 .parcel-cache/
+!/src/ingest/status-processor/status-function.ts
 /_old/
 !/.projenrc.ts

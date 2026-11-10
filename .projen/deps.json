@@ -110,7 +110,17 @@
       "type": "runtime"
     },
     {
+      "name": "@aws-sdk/client-dynamodb",
+      "version": "3.1155.0",
+      "type": "runtime"
+    },
+    {
       "name": "@aws-sdk/client-secrets-manager",
+      "version": "3.1155.0",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-sdk/lib-dynamodb",
       "version": "3.1155.0",
       "type": "runtime"
     },

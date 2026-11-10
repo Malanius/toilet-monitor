@@ -13,7 +13,7 @@ export const toiletPk = (toiletId: string): string => `TOILET#${toiletId}`;
 /**
  * STATE item as stored in DynamoDB. The stream pipe builds the event from the
  * new image only, so the item carries everything the event needs, including
- * the previous values. All values are strings to keep the pipe's input
+ * the previous values. Everything the pipe maps is a string, to keep its input
  * transformation trivial.
  */
 export interface StateItem {
@@ -30,4 +30,20 @@ export interface StateItem {
   previousConnectivity: Connectivity;
   /** ISO timestamp, empty string when there was no previous state. */
   previousChangedAt: string;
+  /** Incremented on every write, used for optimistic locking. Not part of the event. */
+  revision: number;
+}
+
+/** DEVICE item as stored in DynamoDB. */
+export interface DeviceItem {
+  pk: string;
+  sk: typeof ItemType.Device;
+  toiletId: string;
+  /** ISO timestamp of the newest message received from the device. */
+  lastSeenAt: string;
+  lastWakeReason: 'change' | 'heartbeat';
+  /** Last known battery voltage; not every message carries one. */
+  batteryMv?: number;
+  /** ISO timestamp of the message `batteryMv` came from. */
+  batteryMeasuredAt?: string;
 }

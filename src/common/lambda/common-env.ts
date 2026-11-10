@@ -13,6 +13,8 @@ export const commonFunctionEnvironment = (props: AppInfo, serviceName: string): 
         ? `${60 * 60}` // 1 Hour
         : `${60 * 2}`, // 2 minutes
     POWERTOOLS_SERVICE_NAME: `${appName}::${appEnv}::${serviceName}`,
+    // Bundles ship source maps, this makes stack traces point to the TS sources
+    NODE_OPTIONS: '--enable-source-maps',
     POWERTOOLS_TRACE_ENABLED: 'true', // Note: disable along with tracing: Tracing.Disabled in common-props.ts
   };
 };

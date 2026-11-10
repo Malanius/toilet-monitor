@@ -45,7 +45,59 @@
     },
     "bundle": {
       "name": "bundle",
-      "description": "Prepare assets"
+      "description": "Prepare assets",
+      "steps": [
+        {
+          "spawn": "bundle:ingest/status-processor/status.lambda"
+        }
+      ]
+    },
+    "bundle:ingest/status-processor/status.lambda": {
+      "name": "bundle:ingest/status-processor/status.lambda",
+      "description": "Create a JavaScript bundle from src/ingest/status-processor/status.lambda.ts",
+      "steps": [
+        {
+          "execArgs": [
+            "esbuild",
+            "--bundle",
+            "src/ingest/status-processor/status.lambda.ts",
+            "--target=node24",
+            "--platform=node",
+            "--outfile=assets/ingest/status-processor/status.lambda/index.mjs",
+            "--packages=bundle",
+            "--tsconfig=test/tsconfig.json",
+            "--sourcemap",
+            "--format=esm",
+            "--minify",
+            "--banner:js=import { createRequire } from 'node:module'; const require = createRequire(import.meta.url);",
+            "--main-fields=module,main"
+          ]
+        }
+      ]
+    },
+    "bundle:ingest/status-processor/status.lambda:watch": {
+      "name": "bundle:ingest/status-processor/status.lambda:watch",
+      "description": "Continuously update the JavaScript bundle from src/ingest/status-processor/status.lambda.ts",
+      "steps": [
+        {
+          "execArgs": [
+            "esbuild",
+            "--bundle",
+            "src/ingest/status-processor/status.lambda.ts",
+            "--target=node24",
+            "--platform=node",
+            "--outfile=assets/ingest/status-processor/status.lambda/index.mjs",
+            "--packages=bundle",
+            "--tsconfig=test/tsconfig.json",
+            "--sourcemap",
+            "--format=esm",
+            "--minify",
+            "--banner:js=import { createRequire } from 'node:module'; const require = createRequire(import.meta.url);",
+            "--main-fields=module,main",
+            "--watch"
+          ]
+        }
+      ]
     },
     "check": {
       "name": "check",
@@ -312,7 +364,9 @@
             "@aws-lambda-powertools/parser",
             "@aws-lambda-powertools/tracer",
             "@aws-lambda-powertools/validation",
+            "@aws-sdk/client-dynamodb",
             "@aws-sdk/client-secrets-manager",
+            "@aws-sdk/lib-dynamodb",
             "@middy/core",
             "aws-cdk-lib",
             "constructs",
