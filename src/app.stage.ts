@@ -5,6 +5,7 @@ import { type AppInfo, isProd } from '@/common/app-info';
 import { offlineAfter } from '@/common/liveness';
 import { ConsumersStack } from '@/consumers/consumers.stack';
 import { IngestStack } from '@/ingest/ingest.stack';
+import { MonitoringStack } from '@/monitoring/monitoring.stack';
 import { StateStack } from '@/state/state.stack';
 
 interface AppStageProps extends StageProps, AppInfo {}
@@ -24,7 +25,7 @@ export class AppStage extends Stage {
       terminationProtection: isProd(props),
     });
 
-    new IngestStack(this, 'ingest', {
+    const ingest = new IngestStack(this, 'ingest', {
       appName,
       appEnv,
       stackName: stackName('ingest'),
@@ -39,6 +40,20 @@ export class AppStage extends Stage {
       stackName: stackName('consumers'),
       bus: state.statusEventBus.bus,
     });
+
+    // Alarms cost money and nobody watches dev
+    if (isProd(props)) {
+      new MonitoringStack(this, 'monitoring', {
+        appName,
+        appEnv,
+        stackName: stackName('monitoring'),
+        deadLetterQueues: {
+          'status-events-pipe': state.statusEventsPipe.deadLetterQueue,
+          'status-processor': ingest.statusProcessor.deadLetterQueue,
+          'door-topic-rule': ingest.doorTopicRule.errorQueue,
+        },
+      });
+    }
 
     Aspects.of(this).add(new Tag('project', appName));
     Aspects.of(this).add(new Tag('env', appEnv));

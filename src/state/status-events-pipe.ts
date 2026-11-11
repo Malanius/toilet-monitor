@@ -34,13 +34,15 @@ const fromNewImage = (attribute: keyof StateItem) => DynamicInput.fromEventPath(
  * DEVICE items (telemetry) and deletions are filtered out.
  */
 export class StatusEventsPipe extends Construct {
+  readonly deadLetterQueue: Queue;
+
   constructor(scope: Construct, id: string, props: StatusEventsPipeProps) {
     super(scope, id);
 
     const { appName, appEnv, table, bus } = props;
     const prod = isProd(props);
 
-    const deadLetterQueue = new Queue(this, 'DeadLetterQueue', {
+    this.deadLetterQueue = new Queue(this, 'DeadLetterQueue', {
       encryption: QueueEncryption.SQS_MANAGED,
       enforceSSL: true,
       retentionPeriod: Duration.days(14),
@@ -70,7 +72,7 @@ export class StatusEventsPipe extends Construct {
       description: 'Status table STATE changes -> status events',
       source: new DynamoDBSource(table, {
         startingPosition: DynamoDBStartingPosition.LATEST,
-        deadLetterTarget: deadLetterQueue,
+        deadLetterTarget: this.deadLetterQueue,
         maximumRetryAttempts: 5,
       }),
       filter: new Filter([

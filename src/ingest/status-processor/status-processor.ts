@@ -25,13 +25,14 @@ export interface StatusProcessorProps extends AppInfo {
  */
 export class StatusProcessor extends Construct {
   readonly function: StatusFunction;
+  readonly deadLetterQueue: Queue;
 
   constructor(scope: Construct, id: string, props: StatusProcessorProps) {
     super(scope, id);
 
     const { appName, appEnv, table, scheduleGroup, offlineAfter } = props;
 
-    const deadLetterQueue = new Queue(this, 'DeadLetterQueue', {
+    this.deadLetterQueue = new Queue(this, 'DeadLetterQueue', {
       encryption: QueueEncryption.SQS_MANAGED,
       enforceSSL: true,
       retentionPeriod: Duration.days(14),
@@ -58,7 +59,7 @@ export class StatusProcessor extends Construct {
         TABLE_NAME: table.tableName,
         SCHEDULE_GROUP_NAME: scheduleGroup.scheduleGroupName,
         SCHEDULER_ROLE_ARN: schedulerRole.roleArn,
-        DEAD_LETTER_QUEUE_ARN: deadLetterQueue.queueArn,
+        DEAD_LETTER_QUEUE_ARN: this.deadLetterQueue.queueArn,
         OFFLINE_AFTER_SECONDS: `${offlineAfter.toSeconds()}`,
       },
     });
@@ -66,7 +67,7 @@ export class StatusProcessor extends Construct {
     this.function.configureAsyncInvoke({
       retryAttempts: 2,
       maxEventAge: Duration.hours(1),
-      onFailure: new SqsDestination(deadLetterQueue),
+      onFailure: new SqsDestination(this.deadLetterQueue),
     });
 
     // Only what StatusRepository uses
@@ -77,6 +78,6 @@ export class StatusProcessor extends Construct {
     scheduleGroup.grantWriteSchedules(this.function);
     schedulerRole.grantPassRole(this.function.grantPrincipal);
     this.function.grantInvoke(schedulerRole);
-    deadLetterQueue.grantSendMessages(schedulerRole);
+    this.deadLetterQueue.grantSendMessages(schedulerRole);
   }
 }

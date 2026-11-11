@@ -16,6 +16,7 @@ export interface StateStackProps extends StackProps, AppInfo {}
 export class StateStack extends Stack {
   readonly statusTable: StatusTable;
   readonly statusEventBus: StatusEventBus;
+  readonly statusEventsPipe: StatusEventsPipe;
   readonly livenessSchedules: LivenessSchedules;
 
   constructor(scope: Construct, id: string, props: StateStackProps) {
@@ -23,7 +24,7 @@ export class StateStack extends Stack {
 
     this.statusTable = new StatusTable(this, 'StatusTable', props);
     this.statusEventBus = new StatusEventBus(this, 'StatusEventBus', props);
-    new StatusEventsPipe(this, 'StatusEventsPipe', {
+    this.statusEventsPipe = new StatusEventsPipe(this, 'StatusEventsPipe', {
       ...props,
       table: this.statusTable.table,
       bus: this.statusEventBus.bus,

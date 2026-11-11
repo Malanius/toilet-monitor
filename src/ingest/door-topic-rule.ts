@@ -14,13 +14,15 @@ export interface DoorTopicRuleProps extends AppInfo {
 
 /** Routes door reports from all devices to the status processor. */
 export class DoorTopicRule extends Construct {
+  readonly errorQueue: Queue;
+
   constructor(scope: Construct, id: string, props: DoorTopicRuleProps) {
     super(scope, id);
 
     const { appName, appEnv, handler } = props;
 
     // Receives the payload plus error details when the rule can't invoke the Lambda
-    const errorQueue = new Queue(this, 'ErrorQueue', {
+    this.errorQueue = new Queue(this, 'ErrorQueue', {
       encryption: QueueEncryption.SQS_MANAGED,
       enforceSSL: true,
       retentionPeriod: Duration.days(14),
@@ -40,7 +42,7 @@ export class DoorTopicRule extends Construct {
       description: 'Door reports -> status processor',
       sql: IotSql.fromStringAsVer20160323(sql),
       actions: [new LambdaFunctionAction(handler)],
-      errorAction: new SqsQueueAction(errorQueue, { useBase64: false }),
+      errorAction: new SqsQueueAction(this.errorQueue, { useBase64: false }),
     });
   }
 }

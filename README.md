@@ -46,3 +46,9 @@ Status changes are published to the `toilet-monitor-<env>` event bus with source
 `Toilet Status Changed`, `Toilet Went Offline` and `Toilet Came Online` (schema in `src/contracts/events.ts`). Every
 event is also written to the `/aws/events/toilet-monitor/<env>/status-events` log group. Events can arrive out of order,
 so consumers should rely on `changedAt` and `previous` in the detail.
+
+## Monitoring
+
+Prod only: every dead letter queue (Pipe, status processor, door topic rule) has an alarm that fires on its first
+message and notifies the `toilet-monitor-prod-alarms` SNS topic. Subscribe to the topic outside CloudFormation. Dev has
+no alarms, check its queues by hand.

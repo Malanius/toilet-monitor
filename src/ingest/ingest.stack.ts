@@ -17,13 +17,16 @@ export interface IngestStackProps extends StackProps, AppInfo {
 
 /** Stateless processing of device reports into status state. */
 export class IngestStack extends Stack {
+  readonly statusProcessor: StatusProcessor;
+  readonly doorTopicRule: DoorTopicRule;
+
   constructor(scope: Construct, id: string, props: IngestStackProps) {
     super(scope, id, props);
 
-    const statusProcessor = new StatusProcessor(this, 'StatusProcessor', props);
-    new DoorTopicRule(this, 'DoorTopicRule', {
+    this.statusProcessor = new StatusProcessor(this, 'StatusProcessor', props);
+    this.doorTopicRule = new DoorTopicRule(this, 'DoorTopicRule', {
       ...props,
-      handler: statusProcessor.function,
+      handler: this.statusProcessor.function,
     });
   }
 }
