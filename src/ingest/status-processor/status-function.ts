@@ -17,7 +17,7 @@ export class StatusFunction extends lambda.Function {
     super(scope, id, {
       description: 'src/ingest/status-processor/status.lambda.ts',
       ...props,
-      runtime: new lambda.Runtime('nodejs24.x', lambda.RuntimeFamily.NODEJS),
+      runtime: new lambda.Runtime('nodejs24.x', lambda.RuntimeFamily.NODEJS, { supportsInlineCode: true }),
       handler: 'index.handler',
       code: lambda.Code.fromAsset(path.join(__dirname, '../../../assets/ingest/status-processor/status.lambda')),
     });
