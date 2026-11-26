@@ -61,7 +61,7 @@
             "esbuild",
             "--bundle",
             "src/ingest/status-processor/status.lambda.ts",
-            "--target=node24",
+            "--target=node26",
             "--platform=node",
             "--outfile=assets/ingest/status-processor/status.lambda/index.mjs",
             "--packages=bundle",
@@ -84,7 +84,7 @@
             "esbuild",
             "--bundle",
             "src/ingest/status-processor/status.lambda.ts",
-            "--target=node24",
+            "--target=node26",
             "--platform=node",
             "--outfile=assets/ingest/status-processor/status.lambda/index.mjs",
             "--packages=bundle",
@@ -326,7 +326,7 @@
             "--peer",
             "--no-deprecated",
             "--dep=dev,prod,peer,optional",
-            "--filter=@commitlint/config-conventional,@types/aws-lambda,@types/node,bun-types,commitlint,cz-conventional-changelog,esbuild,lefthook,projen,ts-node,typescript"
+            "--filter=@commitlint/config-conventional,@types/aws-lambda,bun-types,commitlint,cz-conventional-changelog,esbuild,lefthook,projen,ts-node,typescript"
           ]
         },
         {
